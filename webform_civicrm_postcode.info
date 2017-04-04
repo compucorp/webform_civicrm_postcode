@@ -1,0 +1,5 @@
+name = Webform CiviPostcode Integration
+description = Adds postcode lookup functionality (provided by CiviPostcode extension) by creating a webform component.
+core = 7.x
+package = CiviCRM
+dependencies[] = webform_civicrm

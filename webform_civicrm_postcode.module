@@ -1,0 +1,83 @@
+<?php
+/**
+ * Implements hook_form_alter().
+*/
+function webform_civicrm_postcode_form_alter(&$form, &$form_state, $form_id) {
+  if (strpos($form_id, 'webform_client_form_') !== FALSE
+  && !empty($form['#node']->webform_civicrm)) {
+    // attach javascript needed for postcode lookup when civipostcode extension is installed and enabled
+    if(isPostcodeLookupExtensionEnabled()) {
+      global $base_url;
+
+      drupal_add_library('system', 'ui.autocomplete');
+
+      $civiPostcodeFields = getCivipostcodeFieldIds($form['#node']->webform['components']);
+      // Assign the postcode lookup provider to form, so that we can call the related function in AJAX
+      $settingsStr = CRM_Core_BAO_Setting::getItem('CiviCRM Postcode Lookup', 'api_details');
+      $settingsArray = unserialize($settingsStr);
+
+      $form['#attached']['js'][] = drupal_get_path('module', 'webform_civicrm') . '/js/civipostcode_component.js';
+      $form['#attached']['js'][] = array(
+        // Pass PHP variables to Drupal.settings.
+        'data' => array(
+          'baseUrl' => $base_url,
+          'civiPostCodeLookupProvider' => $settingsArray['provider'],
+          'civiPostCodeFields' => $civiPostcodeFields,
+        ),
+        'type' => 'setting',
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_webform_component_info().
+ *
+ * @return array
+*/
+function webform_civicrm_postcode_webform_component_info() {
+  $components = array();
+  // when civipostcode extension is installed and enabled, civipostcode webform component will be made available
+  if(isPostcodeLookupExtensionEnabled()) {
+    $components['civipostcode'] = array(
+      'label' => t('Civi Postcode'),
+      'file' => 'includes/civipostcode_component.inc',
+    );
+  }
+
+  return $components;
+}
+
+/**
+ * check if civipostcodelookup extension is enabled.
+ *
+ * @return boolean
+ */
+function isPostcodeLookupExtensionEnabled() {
+  civicrm_initialize(true);
+  $isPostcodeLookupEnabled = CRM_Core_DAO::getFieldValue(
+    'CRM_Core_DAO_Extension',
+    'uk.co.vedaconsulting.module.civicrmpostcodelookup',
+    'is_active',
+    'full_name'
+  );
+
+  return $isPostcodeLookupEnabled;
+}
+
+/**
+ * Get list of fields which are of type 'civipostcode'
+ *
+ * @param array $components
+ * @return array $civiPostcodeFields
+ */
+function getCivipostcodeFieldIds($components) {
+  $civiPostcodeFields = array();
+  foreach($components as $component) {
+    if($component['type'] == 'civipostcode') {
+      $civiPostcodeFields[] = str_replace("_", "-", $component['form_key']);
+    }
+  }
+
+  return $civiPostcodeFields;
+}
