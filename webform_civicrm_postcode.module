@@ -16,7 +16,7 @@ function webform_civicrm_postcode_form_alter(&$form, &$form_state, $form_id) {
       $settingsStr = CRM_Core_BAO_Setting::getItem('CiviCRM Postcode Lookup', 'api_details');
       $settingsArray = unserialize($settingsStr);
 
-      $form['#attached']['js'][] = drupal_get_path('module', 'webform_civicrm') . '/js/civipostcode_component.js';
+      $form['#attached']['js'][] = drupal_get_path('module', 'webform_civicrm_postcode') . '/js/civipostcode_component.js';
       $form['#attached']['js'][] = array(
         // Pass PHP variables to Drupal.settings.
         'data' => array(
