@@ -24,7 +24,12 @@ jQuery(document).ready(function ($) {
               },
             //optional (if other layers overlap autocomplete list)
       open: function (event, ui) {
-              jQuery(".ui-autocomplete").css("z-index", 1000);
+              // show scrollbar
+              jQuery(".ui-autocomplete").css({
+                  'overflow-y': 'auto',
+                  'max-height': '200px',
+                  'z-index': '1000',
+              });
             }
     });
   });
