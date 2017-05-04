@@ -44,6 +44,7 @@ function _webform_render_civipostcode($component, $value = NULL, $filter = TRUE)
     '#weight' => $component['weight'],
     '#attributes' => array(),
     '#theme_wrappers' => array('webform_element'),
+    '#description' => $component['extra']['description'],       
   );
 
   if (isset($value)) {
