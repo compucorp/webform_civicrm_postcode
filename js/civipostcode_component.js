@@ -3,35 +3,37 @@ jQuery(document).ready(function ($) {
   var civiPostCodeFields = Drupal.settings.civiPostCodeFields;
   var sourceUrl = Drupal.settings.baseUrl + "/civicrm/" + civiPostCodeLookupProvider + "/ajax/search?json=1";
   $.each(civiPostCodeFields, function (key, value) {
-    $('[id*="'+value+'"]').autocomplete({
-      source: sourceUrl,
-      minLength: 3,
-      select: function (event, ui) {
-                var id = ui.item.id;
-                var sourceUrl = Drupal.settings.baseUrl + '/civicrm/' + civiPostCodeLookupProvider + '/ajax/get?json=1';
-                var postcodeElementId = value;
-                var result = getCivicrmAndContactSequence(postcodeElementId);
+    if ($('[id*="'+value+'"]').length) { // Check postcode element exists on page first
+      $('[id*="' + value + '"]').autocomplete({
+        source: sourceUrl,
+        minLength: 3,
+        select: function (event, ui) {
+          var id = ui.item.id;
+          var sourceUrl = Drupal.settings.baseUrl + '/civicrm/' + civiPostCodeLookupProvider + '/ajax/get?json=1';
+          var postcodeElementId = value;
+          var result = getCivicrmAndContactSequence(postcodeElementId);
 
-                $.ajax({
-                  dataType: 'json',
-                  data: {id: id},
-                  url: sourceUrl,
-                  success: function (data) {
-                    setAddress(data.address, result.civicrmSeq, result.contactSeq);
-                  }
-                });
-                return false;
-              },
-            //optional (if other layers overlap autocomplete list)
-      open: function (event, ui) {
-              // show scrollbar
-              jQuery(".ui-autocomplete").css({
-                  'overflow-y': 'auto',
-                  'max-height': '200px',
-                  'z-index': '1000',
-              });
+          $.ajax({
+            dataType: 'json',
+            data: {id: id},
+            url: sourceUrl,
+            success: function (data) {
+              setAddress(data.address, result.civicrmSeq, result.contactSeq);
             }
-    });
+          });
+          return false;
+        },
+        //optional (if other layers overlap autocomplete list)
+        open: function (event, ui) {
+          // show scrollbar
+          jQuery(".ui-autocomplete").css({
+            'overflow-y': 'auto',
+            'max-height': '200px',
+            'z-index': '1000',
+          });
+        }
+      });
+    }
   });
 
   // extract civicrm and contact sequence to form id
