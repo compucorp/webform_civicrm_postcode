@@ -1,6 +1,7 @@
 <?php
 
-function _webform_edit_civipostcode($component) { 
+function _webform_edit_civipostcode($component) {
+  module_load_include('inc', 'webform_civicrm', 'includes/contact_component');
   $form = array();
   $form['#attached']['js'][] = wf_crm_tokeninput_path();
   return $form;
