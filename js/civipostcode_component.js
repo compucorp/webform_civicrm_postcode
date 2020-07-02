@@ -59,13 +59,17 @@ jQuery(document).ready(function ($) {
     var streetAddressElement = "civicrm-"+civicrmSeq+"-contact-"+contactSeq+"-address-street-address";
     var AddstreetAddressElement = "civicrm-"+civicrmSeq+"-contact-"+contactSeq+"-address-supplemental-address-1";
     var AddstreetAddressElement1 = "civicrm-"+civicrmSeq+"-contact-"+contactSeq+"-address-supplemental-address-2";
+    var AddstreetAddressElement2 = "civicrm-"+civicrmSeq+"-contact-"+contactSeq+"-address-supplemental-address-3";
     var cityElement = "civicrm-"+civicrmSeq+"-contact-"+contactSeq+"-address-city";
     var postalCodeElement = "civicrm-"+civicrmSeq+"-contact-"+contactSeq+"-address-postal-code";
+    var countyElement = "civicrm-"+civicrmSeq+"-contact-"+contactSeq+"-address-state-province-id";
 
     $('[id *="' + streetAddressElement + '"]').val(address.street_address);
     $('[id *="' + AddstreetAddressElement + '"]').val(address.supplemental_address_1);
     $('[id *="' + AddstreetAddressElement1 + '"]').val(address.supplemental_address_2);
+    $('[id *="' + AddstreetAddressElement2 + '"]').val(address.supplemental_address_3);
     $('[id *="' + cityElement + '"]').val(address.town);
     $('[id *="' + postalCodeElement + '"]').val(address.postcode);
+    $('[id *="' + countyElement + '"]').val(address.state_province_abbreviation);
   }
 });
