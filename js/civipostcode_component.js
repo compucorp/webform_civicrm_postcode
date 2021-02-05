@@ -68,7 +68,7 @@ jQuery(document).ready(function ($) {
     $('[id *="' + AddstreetAddressElement + '"]').val(address.supplemental_address_1);
     $('[id *="' + AddstreetAddressElement1 + '"]').val(address.supplemental_address_2);
     $('[id *="' + AddstreetAddressElement2 + '"]').val(address.supplemental_address_3);
-    $('[id *="' + cityElement + '"]').val(address.town);
+    $('[id *="' + cityElement + '"]').val(address.city);
     $('[id *="' + postalCodeElement + '"]').val(address.postcode);
     $('[id *="' + countyElement + '"]').val(address.state_province_abbreviation);
   }
