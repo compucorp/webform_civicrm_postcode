@@ -4,6 +4,19 @@ jQuery(document).ready(function ($) {
   var sourceUrl = Drupal.settings.baseUrl + "/civicrm/" + civiPostCodeLookupProvider + "/ajax/search?json=1";
   $.each(civiPostCodeFields, function (key, value) {
     if ($('[id*="'+value+'"]').length) { // Check postcode element exists on page first
+      $('[id*="' + value + '"]').on('keyup', function (event) {
+        // Simple regex for postcode structure checking, without complexity of checking for allowable letters
+        // See https://stackoverflow.com/questions/164979/regex-for-matching-uk-postcodes for more!
+        var regex = new RegExp('^([A-Za-z]{1,2}[0-9]{1,2}[A-Za-z]?[ ]?)([0-9]{1}[A-Za-z].*)');
+        // Check entry up to penultimate character, to allow autocomplete to work after final char
+        if(regex.test($('[id*="' + value + '"]').val()))
+        {
+          $('[id*="' + value + '"]').autocomplete( "option", "disabled", false );
+        }else
+        {
+          $('[id*="' + value + '"]').autocomplete( "option", "disabled", true );
+        }
+      });
       $('[id*="' + value + '"]').autocomplete({
         source: sourceUrl,
         minLength: 3,
