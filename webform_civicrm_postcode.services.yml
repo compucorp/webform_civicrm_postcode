@@ -1,0 +1,3 @@
+services:
+  webform_civicrm_postcode.utils:
+    class: Drupal\webform_civicrm_postcode\Utils
