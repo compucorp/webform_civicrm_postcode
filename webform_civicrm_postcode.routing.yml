@@ -1,0 +1,6 @@
+webform_civicrm_postcode.autocomplete:
+  path: '/civicrm-postcode/autocomplete'
+  defaults:
+    _controller: '\Drupal\webform_civicrm_postcode\Controller\PostcodeAutocompleteController::handleAutocomplete'
+  requirements:
+    _permission: 'access postcode lookup'
