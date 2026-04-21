@@ -3,8 +3,8 @@ jQuery(document).ready(function ($) {
   var civiPostCodeFields = Drupal.settings.civiPostCodeFields;
   var sourceUrl = Drupal.settings.baseUrl + "/civicrm/" + civiPostCodeLookupProvider + "/ajax/search?json=1";
   $.each(civiPostCodeFields, function (key, value) {
-    if ($('[id*="'+value+'"]').length) { // Check postcode element exists on page first
-      $('[id*="' + value + '"]').autocomplete({
+    if ($('[id*="'+value+'"]').not('[id*="-suffix"]').length) { // Check postcode element exists on page first
+      $('[id*="' + value + '"]').not('[id*="-suffix"]').autocomplete({
         source: sourceUrl,
         minLength: 3,
         select: function (event, ui) {
@@ -68,8 +68,8 @@ jQuery(document).ready(function ($) {
     $('[id *="' + AddstreetAddressElement + '"]').val(address.supplemental_address_1);
     $('[id *="' + AddstreetAddressElement1 + '"]').val(address.supplemental_address_2);
     $('[id *="' + AddstreetAddressElement2 + '"]').val(address.supplemental_address_3);
-    $('[id *="' + cityElement + '"]').val(address.town);
-    $('[id *="' + postalCodeElement + '"]').val(address.postcode);
+    $('[id *="' + cityElement + '"]').val(address.city);
+    $('[id *="' + postalCodeElement + '"]').not('[id*="-suffix"]').val(address.postcode);
     $('[id *="' + countyElement + '"]').val(address.state_province_abbreviation);
   }
 });
